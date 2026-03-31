@@ -1,0 +1,74 @@
+version: '3.8'
+
+services:
+  gateway:
+    build: ./gateway
+    container_name: gateway
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend:/app/frontend
+      - ./gateway/server.js:/app/server.js
+    depends_on:
+      - node1
+      - node2
+      - node3
+    networks:
+      - raft_net
+
+  node1:
+    build: ./replica1
+    container_name: node1
+    hostname: node1
+    command: watchmedo auto-restart --directory=/app/src --pattern=*.py --recursive -- python /app/src/server.py 5000 node2:5000 node3:5000
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./replica1/src:/app/src
+      - node1_data:/data
+    environment:
+      - HOSTNAME=node1
+      - GATEWAY_URL=http://gateway:8080
+    networks:
+      - raft_net
+
+  node2:
+    build: ./replica2
+    container_name: node2
+    hostname: node2
+    command: watchmedo auto-restart --directory=/app/src --pattern=*.py --recursive -- python /app/src/server.py 5000 node1:5000 node3:5000
+    ports:
+      - "5002:5000"
+    volumes:
+      - ./replica2/src:/app/src
+      - node2_data:/data
+    environment:
+      - HOSTNAME=node2
+      - GATEWAY_URL=http://gateway:8080
+    networks:
+      - raft_net
+
+  node3:
+    build: ./replica3
+    container_name: node3
+    hostname: node3
+    command: watchmedo auto-restart --directory=/app/src --pattern=*.py --recursive -- python /app/src/server.py 5000 node1:5000 node2:5000
+    ports:
+      - "5003:5000"
+    volumes:
+      - ./replica3/src:/app/src
+      - node3_data:/data
+    environment:
+      - HOSTNAME=node3
+      - GATEWAY_URL=http://gateway:8080
+    networks:
+      - raft_net
+
+networks:
+  raft_net:
+    driver: bridge
+
+volumes:
+  node1_data:
+  node2_data:
+  node3_data:

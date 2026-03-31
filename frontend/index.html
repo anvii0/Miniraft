@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiniRAFT Drawing Board</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    <div class="overlay-mesh"></div>
+
+    <div class="app-container">
+        <header class="glass-header">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <h1>Distributed Real-Time Canvas</h1>
+            </div>
+            <div class="status-indicator">
+                <div class="ping-dot" id="wsStatusDot"></div>
+                <span id="wsStatusText">Connecting...</span>
+            </div>
+        </header>
+
+        <main class="canvas-wrapper glass-panel">
+            <canvas id="drawingBoard"></canvas>
+            
+            <div class="toolbar glass-panel">
+                <div class="tool-group">
+                    <label>Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="colorPicker" value="#ffffff">
+                        <div class="preset-colors">
+                            <button class="color-btn active" style="background: #ffffff;" data-color="#ffffff"></button>
+                            <button class="color-btn" style="background: #ff3366;" data-color="#ff3366"></button>
+                            <button class="color-btn" style="background: #00e5ff;" data-color="#00e5ff"></button>
+                            <button class="color-btn" style="background: #a200ff;" data-color="#a200ff"></button>
+                            <button class="color-btn" style="background: #00ff66;" data-color="#00ff66"></button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="tool-group">
+                    <label>Brush Size</label>
+                    <div class="slider-container">
+                        <input type="range" id="brushSize" min="1" max="20" value="4">
+                        <span id="brushSizeVal" class="size-val">4px</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <button id="clearBtn" class="action-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                    </svg>
+                    Clear Local
+                </button>
+            </div>
+        </main>
+        <footer class="glass-footer">Powered by MiniRAFT Consensus — Node.js Gateway + 3 Python Replicas</footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
