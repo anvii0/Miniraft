@@ -1,4 +1,5 @@
 const canvas = document.getElementById('drawingBoard');
+// Canvas context powers local rendering before strokes are replicated.
 const ctx = canvas.getContext('2d');
 const colorPicker = document.getElementById('colorPicker');
 const brushSize = document.getElementById('brushSize');

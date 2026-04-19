@@ -23,7 +23,7 @@ class RaftNode:
         self.match_index = {p: -1 for p in peers}
 
         self.last_heartbeat = time.time()
-        self.timeout = random.uniform(0.5, 0.8) # 500-800ms
+        self.timeout = random.uniform(0.5, 0.8)  # 500-800 ms election timeout
         self.lock = threading.Lock()
         
         self.running = True
@@ -63,7 +63,7 @@ class RaftNode:
                     self._start_election()
                 
                 elif self.state == 'LEADER':
-                    if elapsed > 0.15: # 150ms heartbeat
+                    if elapsed > 0.15:  # 150 ms heartbeat via AppendEntries
                         self._broadcast_heartbeats()
                         self.last_heartbeat = time.time()
                 
